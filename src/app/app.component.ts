@@ -7,7 +7,9 @@ import { HalService } from './hal.service';
 	styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-	title = 'Collaboration centre de recherches';
+	title = 'Outil de recherche de collaborations entre laboratoires';
+
+	clicked = false;
 
 	results: any = [];
 
@@ -15,11 +17,22 @@ export class AppComponent {
 
 	ngOnInit() { }
 
-	getArticleByTitle(title: string) {
+	getArticles(title: string, lab: string, firstDate: Date, lastDate: Date) {
 		this.results = [];
-		this.hal.getDataByTitle(title).subscribe((data: {}) => {
-			console.log(data);
-			this.results = data;
-		});
+
+		if(title || lab || firstDate || lastDate){
+			this.hal.getData(title, lab, firstDate, lastDate).subscribe((data: {}) => {
+				console.log(data);
+				this.results = data;
+			});	
+		}
 	}
-}
+
+	// getArticleByTitle(title: string) {
+		// 	this.results = [];
+		// 	this.hal.getDataByTitle(title).subscribe((data: {}) => {
+			// 		console.log(data);
+			// 		this.results = data;
+			// 	});
+			// }
+		}

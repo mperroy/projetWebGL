@@ -1,27 +1,38 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
+	<h1 class="my-md-3">
+		{{ title }}
+	</h1>
 </div>
 
-Point d'entrée HAL Université Bordeaux :
+<div class="container-fluid">
+	<label class="mx-md-2">Titre article : 
+		<input #articleTitle />
+	</label>
 
-https://api.archives-ouvertes.fr/search/UNIV-BORDEAUX/
-<br/>
+	<label class="mx-md-2">Laboratoire :
+		<input #lab />
+	</label>
 
-<div>
-  <label>Paper title:
-    <input #articleTitle />
-  </label>
-  <button (click)="getArticleByTitle(articleTitle.value)">Search</button>
+	<label class="mx-md-2">De :
+		<input type="date" #firstDate />
+	</label>
+
+	<label class="mx-md-2">A :
+		<input type="date" #lastDate />
+	</label>
+
+	<button class="btn btn-secondary" (click)="getArticles(articleTitle.value, lab.value, firstDate.value, lastDate.value) ; clicked = true">Search</button>
 </div>
 
-<ul>
-	<li *ngFor="let r of results">
+<div class="ml-md-2" *ngIf="clicked && results.length == 0">
+	<p>Pas de résultats</p>
+</div>
+<ul class="list-group mx-md-2">
+	<li class="list-group-item bg-light" *ngFor="let r of results">
 		{{r.label_s}}
-		<ul>
-			<li *ngFor="let rc of r.labStructName_s">
+		<ul class="list-group pt-md-1">
+			<li class="list-group-item bg-white" *ngFor="let rc of r.labStructName_s">
 				{{rc}}
 			</li>
 		</ul>

@@ -15,19 +15,53 @@ const httpOptions = {
 })
 
 export class HalService {
+	query: string;
 
 	constructor(private http: HttpClient) { }
 
-	// test : recherche titre avec "parole" dedans
-	getDataByTitle(title: string): Observable<any> {
-		return this.http.get(endpoint + `?q=title_t:${title}&fl=*`).pipe(
+	getData(title: string, lab: string, firstDate: Date, lastDate: Date): Observable<any> {
+		this.query = endpoint + '?q=';
+
+		if(title){
+			this.getDataByTitle(title);
+		}
+
+		if(lab){
+			// TODO
+		}
+
+		if(firstDate || lastDate){
+			this.getDataByDate(firstDate, lastDate);
+		}
+
+		return this.http.get(this.query + '&fl=*').pipe(
 			map(this.extractData)
 		);
+	}
+
+	getDataByTitle(title: string) {
+		this.query += `title_t:${title}`;
+	}
+
+	getDataByDate(firstDate: Date, lastDate: Date) {
+		var fDate = new Date(firstDate);
+		var lDate = new Date(lastDate);
+
+		this.query += '&fq=submittedDate_tdate:'
+		if(firstDate)
+			this.query += `[${fDate.toISOString()} TO `;
+		else
+			this.query += '[* TO ';
+
+		if(lastDate)
+			this.query += `${lDate.toISOString()}]`;
+		else
+			this.query += 'NOW]';
 	}
 
 	private extractData(res: Response) {
 		let body = JSON.stringify(res);
 		let jsonObj = JSON.parse(body);
-		return jsonObj.response.docs || ['Doesnt', 'work'];
+		return jsonObj.response.docs || [];
 	}
 }
