@@ -9,9 +9,21 @@ Point d'entrée HAL Université Bordeaux :
 
 https://api.archives-ouvertes.fr/search/UNIV-BORDEAUX/
 <br/>
-<button (click)="getTest()">Testing</button>
+
+<div>
+  <label>Paper title:
+    <input #articleTitle />
+  </label>
+  <button (click)="getArticleByTitle(articleTitle.value)">Search</button>
+</div>
+
 <ul>
 	<li *ngFor="let r of results">
-		{{r}}
+		{{r.label_s}}
+		<ul>
+			<li *ngFor="let rc of r.labStructName_s">
+				{{rc}}
+			</li>
+		</ul>
 	</li>
 </ul>

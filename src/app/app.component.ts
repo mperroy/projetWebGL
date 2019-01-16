@@ -13,13 +13,11 @@ export class AppComponent {
 
 	constructor(public hal: HalService) { }
 
-	ngOnInit() {
-		this.getTest();
-	}
+	ngOnInit() { }
 
-	getTest() {
+	getArticleByTitle(title: string) {
 		this.results = [];
-		this.hal.getDataTest().subscribe((data: {}) => {
+		this.hal.getDataByTitle(title).subscribe((data: {}) => {
 			console.log(data);
 			this.results = data;
 		});

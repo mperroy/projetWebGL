@@ -19,22 +19,15 @@ export class HalService {
 	constructor(private http: HttpClient) { }
 
 	// test : recherche titre avec "parole" dedans
-	getDataTest(): Observable<any> {
-		return this.http.get(endpoint + '?q=title_t:parole').pipe(
+	getDataByTitle(title: string): Observable<any> {
+		return this.http.get(endpoint + `?q=title_t:${title}&fl=*`).pipe(
 			map(this.extractData)
 		);
 	}
 
 	private extractData(res: Response) {
-		let body = res;
-		return body || ['Doesnt', 'work'];
-	}
-
-	private handleError<T> (operation = 'operation', result?: T) {
-		return (error: any): Observable<T> => {
-			console.error(error);
-			console.log(`${operation} failed: ${error.message}`);
-			return of(result as T);
-		};
+		let body = JSON.stringify(res);
+		let jsonObj = JSON.parse(body);
+		return jsonObj.response.docs || ['Doesnt', 'work'];
 	}
 }
