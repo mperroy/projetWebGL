@@ -20,8 +20,6 @@ Le mode de visite "utilisateur" permet de conserver des laboratoires ou des équ
 
 7 - L'utilisateur peut ajouter en favori des laboratoires et/ou des équipes.
 
-Voilà.
-
 Informations sur le projet :
 
     Technologies :
