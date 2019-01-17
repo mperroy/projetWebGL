@@ -27,20 +27,24 @@ export class HalService {
 		}
 
 		if(lab){
-			// TODO
+			this.getDataByLab(lab);
 		}
 
 		if(firstDate || lastDate){
 			this.getDataByDate(firstDate, lastDate);
 		}
 
-		return this.http.get(this.query + '&fl=*').pipe(
+		return this.http.get(this.query + '&rows=50&fl=*').pipe(
 			map(this.extractData)
 		);
 	}
 
 	getDataByTitle(title: string) {
 		this.query += `title_t:${title}`;
+	}
+
+	getDataByLab(lab:string) {
+		this.query += `labStructName_t:"${lab}"`;
 	}
 
 	getDataByDate(firstDate: Date, lastDate: Date) {
@@ -62,6 +66,21 @@ export class HalService {
 	private extractData(res: Response) {
 		let body = JSON.stringify(res);
 		let jsonObj = JSON.parse(body);
-		return jsonObj.response.docs || [];
+		let allDocs = jsonObj.response.docs;
+		let jsonRes = [];
+		for(let r of allDocs) {
+			if (r.labStructName_s.length == 1) {
+				//allDocs.splice(allDocs.indexOf(r), 1);
+				jsonRes.push(r);
+				let labStructName = [];
+				for(let labName of r.labStructName_s) {
+					if(!labStructName.includes(labName))
+						labStructName.push(labName);
+				}
+				r.labStructName_s = labStructName; 
+			}
+		} 
+		
+		return jsonRes || [];
 	}
 }
