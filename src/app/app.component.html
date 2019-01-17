@@ -14,6 +14,20 @@
 		<input #lab />
 	</label>
 
+	<label class="mx-md-2">Type document :
+		<select #typeDoc>
+			<option value="">Tous</option>
+			<option value="ART">Article</option>
+			<option value="COMM">Conférence</option>
+			<option value="COUV">Couverture</option>
+			<option value="THESE">Thèse</option>
+			<option value="LECTURE">Lecture</option>
+			<option value="REPORT">Rapport</option>
+			<option value="MEM">Mémoire</option>
+			<option value="OUV">Livre</option>
+		</select> 
+	</label>
+
 	<label class="mx-md-2">De :
 		<input type="date" #firstDate />
 	</label>
@@ -22,7 +36,7 @@
 		<input type="date" #lastDate />
 	</label>
 
-	<button class="btn btn-secondary" (click)="getArticles(articleTitle.value, lab.value, firstDate.value, lastDate.value) ; clicked = true">Search</button>
+	<button class="btn btn-secondary" (click)="getArticles(articleTitle.value, lab.value, typeDoc.value, firstDate.value, lastDate.value) ; clicked = true">Search</button>
 </div>
 
 <div class="ml-md-2" *ngIf="clicked && results.length == 0">
@@ -30,7 +44,7 @@
 </div>
 <ul class="list-group mx-md-2">
 	<li class="list-group-item bg-light" *ngFor="let r of results">
-		{{r.label_s}}
+		{{r.title_s}}, {{r.releasedDateD_i}}/{{r.releasedDateM_i}}/{{r.releasedDateY_i}}
 		<ul class="list-group pt-md-1">
 			<li class="list-group-item bg-white" *ngFor="let rc of r.labStructName_s">
 				{{rc}}
