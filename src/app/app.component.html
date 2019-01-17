@@ -39,9 +39,10 @@
 	<button class="btn btn-secondary" (click)="getArticles(articleTitle.value, lab.value, typeDoc.value, firstDate.value, lastDate.value) ; clicked = true">Search</button>
 </div>
 
-<div class="container-fluid	">
+<div class="container-fluid	mt-md-2">
 	<div class="row">
 		<div class="col-sm">
+			<h2 class="text-center text-uppercase" *ngIf="results.length != 0">Résultats</h2>
 			<div class="ml-md-2" *ngIf="clicked && results.length == 0">
 				<p>Pas de résultats</p>
 			</div>
@@ -60,9 +61,15 @@
 		<div class="col-sm">
 			<!-- <div id="map" class="map"></div> -->
 
+			<h2 class="text-center text-uppercase" *ngIf="collabs.length != 0">Collaborations</h2>
 			<ul class="list-group mx-md-2">
-				<li class="list-group-item bg-light" *ngFor="let c of collab">
-					{{c}}
+				<li class="list-group-item bg-light" *ngFor="let c of collabs">
+					{{c.name}}
+					<ul class="list-group pt-md-1">
+						<li class="list-group-item bg-white" *ngFor="let collabos of c.collaborations">
+							{{collabos}}
+						</li>
+					</ul>
 				</li>
 			</ul>
 		</div>

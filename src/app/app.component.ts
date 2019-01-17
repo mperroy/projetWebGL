@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { HalService } from './hal.service';
 
+import { Collaboration } from './collaboration';
+
 // declare var ol: any;
 
 @Component({
@@ -17,6 +19,7 @@ export class AppComponent {
 	results: any = [];
 
 	collab: any = [];
+	collabs: Collaboration[] = [];
 
 	// OpenStreetMap
 	// lngB: number = -0.57918;
@@ -47,25 +50,42 @@ export class AppComponent {
 
 	private async setCollabOfLab() {
  		await this.delay(1500);
- 		
+
 		for(let r of this.results) {
 			for(let lab of r.labStructName_s) {
-				if(!this.collab.includes(lab))
-					this.collab.push(lab);
+				if(!this.labInCollabs(lab)){
+					this.collabs.push({name:lab, collaborations:Object.assign([], r.labStructName_s)});
+				}
 			}
 		}
+
+		this.removeMainLabFromCollabs();
 	}
 
     getArticles(title: string, lab: string, typeDoc: string, firstDate: Date, lastDate: Date) {
 		this.results = [];
-		this.collab = [];
+		this.collabs = [];
 
 		if(title || lab || firstDate || lastDate){
 			this.hal.getData(title, lab, typeDoc, firstDate, lastDate).subscribe((data: {}) => {
-				console.log(data);
+				//console.log(data);
 				this.results = data;
 			});	
 		}
 		this.setCollabOfLab();
+	}
+
+	labInCollabs(lab: string) {
+		for(let c of this.collabs) {
+			if(c.name == lab)
+				return true;
+		}
+		return false;
+	}
+
+	removeMainLabFromCollabs() {
+		for(let c of this.collabs) {
+			c.collaborations.splice(c.collaborations.indexOf(c.name), 1);
+		}
 	}
 }
