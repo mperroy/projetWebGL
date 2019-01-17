@@ -39,16 +39,32 @@
 	<button class="btn btn-secondary" (click)="getArticles(articleTitle.value, lab.value, typeDoc.value, firstDate.value, lastDate.value) ; clicked = true">Search</button>
 </div>
 
-<div class="ml-md-2" *ngIf="clicked && results.length == 0">
-	<p>Pas de résultats</p>
+<div class="container-fluid	">
+	<div class="row">
+		<div class="col-sm">
+			<div class="ml-md-2" *ngIf="clicked && results.length == 0">
+				<p>Pas de résultats</p>
+			</div>
+			<ul class="list-group mx-md-2">
+				<li class="list-group-item bg-light" *ngFor="let r of results">
+					<a class="text-primary" href={{r.uri_s}}>{{r.title_s}}</a>, {{r.releasedDateD_i}}/{{r.releasedDateM_i}}/{{r.releasedDateY_i}}
+					<ul class="list-group pt-md-1">
+						<li class="list-group-item bg-white" *ngFor="let rc of r.labStructName_s">
+							{{rc}}
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+
+		<div class="col-sm">
+			<!-- <div id="map" class="map"></div> -->
+
+			<ul class="list-group mx-md-2">
+				<li class="list-group-item bg-light" *ngFor="let c of collab">
+					{{c}}
+				</li>
+			</ul>
+		</div>
+	</div>
 </div>
-<ul class="list-group mx-md-2">
-	<li class="list-group-item bg-light" *ngFor="let r of results">
-		{{r.title_s}}, {{r.releasedDateD_i}}/{{r.releasedDateM_i}}/{{r.releasedDateY_i}}
-		<ul class="list-group pt-md-1">
-			<li class="list-group-item bg-white" *ngFor="let rc of r.labStructName_s">
-				{{rc}}
-			</li>
-		</ul>
-	</li>
-</ul>

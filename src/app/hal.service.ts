@@ -81,8 +81,7 @@ export class HalService {
 		let allDocs = jsonObj.response.docs;
 		let jsonRes = [];
 		for(let r of allDocs) {
-			if (r.labStructName_s.length == 1) {
-				//allDocs.splice(allDocs.indexOf(r), 1);
+			if (r.labStructName_s.length > 1) {
 				jsonRes.push(r);
 				let labStructName = [];
 				for(let labName of r.labStructName_s) {
@@ -91,8 +90,8 @@ export class HalService {
 				}
 				r.labStructName_s = labStructName; 
 			}
-		} 
-		
+		}
+
 		return jsonRes || [];
 	}
 }
