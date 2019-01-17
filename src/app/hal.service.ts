@@ -19,7 +19,7 @@ export class HalService {
 
 	constructor(private http: HttpClient) { }
 
-	getData(title: string, lab: string, firstDate: Date, lastDate: Date): Observable<any> {
+	getData(title: string, lab: string, typeDoc: string, firstDate: Date, lastDate: Date): Observable<any> {
 		this.query = endpoint + '?q=';
 
 		if(title){
@@ -28,6 +28,10 @@ export class HalService {
 
 		if(lab){
 			this.getDataByLab(lab);
+		}
+
+		if(typeDoc){
+			this.getDataByType(typeDoc);
 		}
 
 		if(firstDate || lastDate){
@@ -43,8 +47,16 @@ export class HalService {
 		this.query += `title_t:${title}`;
 	}
 
-	getDataByLab(lab:string) {
+	getDataByLab(lab: string) {
+		if(!this.query.endsWith('?q='))
+			this.query += ' AND ';
 		this.query += `labStructName_t:"${lab}"`;
+	}
+
+	getDataByType(typeDoc: string) {
+		if(!this.query.endsWith('?q='))
+			this.query += ' AND ';
+		this.query += `docType_s:"${typeDoc}"`;
 	}
 
 	getDataByDate(firstDate: Date, lastDate: Date) {

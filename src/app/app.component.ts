@@ -17,22 +17,14 @@ export class AppComponent {
 
 	ngOnInit() { }
 
-	getArticles(title: string, lab: string, firstDate: Date, lastDate: Date) {
+	getArticles(title: string, lab: string, typeDoc: string, firstDate: Date, lastDate: Date) {
 		this.results = [];
 
 		if(title || lab || firstDate || lastDate){
-			this.hal.getData(title, lab, firstDate, lastDate).subscribe((data: {}) => {
+			this.hal.getData(title, lab, typeDoc, firstDate, lastDate).subscribe((data: {}) => {
 				console.log(data);
 				this.results = data;
 			});	
 		}
 	}
-
-	// getArticleByTitle(title: string) {
-		// 	this.results = [];
-		// 	this.hal.getDataByTitle(title).subscribe((data: {}) => {
-			// 		console.log(data);
-			// 		this.results = data;
-			// 	});
-			// }
-		}
+}
